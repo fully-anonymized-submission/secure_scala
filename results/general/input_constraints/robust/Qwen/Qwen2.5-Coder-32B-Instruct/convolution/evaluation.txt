@@ -1,0 +1,7 @@
+rectangular_input: 1
+normal: 1
+empty_kernel: 1
+even_kernel: 1
+empty_input: 1
+rectangular_kernel: 0
+identity_kernel: 1

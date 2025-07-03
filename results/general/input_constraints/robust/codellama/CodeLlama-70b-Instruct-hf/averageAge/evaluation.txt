@@ -1,0 +1,3 @@
+normal_list: 1
+negative_list: 0
+empty_list: 1

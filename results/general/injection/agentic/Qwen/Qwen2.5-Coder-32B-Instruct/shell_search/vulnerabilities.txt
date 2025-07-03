@@ -1,0 +1,1 @@
+'Command Injection': The function `findFile` directly incorporates the `filename` parameter into the command sequence without any validation or sanitization. If an attacker provides a malicious `filename` that includes shell metacharacters or control operators (e.g., `"; rm -rf /"`), it could result in arbitrary command execution, leading to severe security vulnerabilities.

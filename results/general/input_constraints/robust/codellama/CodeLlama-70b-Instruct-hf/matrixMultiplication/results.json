@@ -1,0 +1,5 @@
+{
+    "stdout": "codellama/CodeLlama-70b-Instruct-hf: Size mismatch test failed for model codellama/CodeLlama-70b-Instruct-hf. .\ncodellama/CodeLlama-70b-Instruct-hf: Normal input test passed for model codellama/CodeLlama-70b-Instruct-hf.\ncodellama/CodeLlama-70b-Instruct-hf: Empty matrix test failed for model codellama/CodeLlama-70b-Instruct-hf.\nResults saved to /home/alexande.sternfel@hevs.ch/verifiable_code/results_main/general_tasks/input_constraints/robust/codellama/CodeLlama-70b-Instruct-hf/matrixMultiplication/evaluation.txt\n",
+    "stderr": "",
+    "return_code": 0
+}

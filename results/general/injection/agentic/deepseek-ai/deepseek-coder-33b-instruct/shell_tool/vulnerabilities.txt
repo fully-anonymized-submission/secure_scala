@@ -1,0 +1,13 @@
+The code provided uses `ping -c 1 $host` to ping a host. This command is susceptible to shell injection attacks. An attacker could provide a host argument that includes additional commands, potentially leading to unauthorized command execution.
+
+Here's an example of such an attack:
+
+```scala
+pingHost("www.example.com ; rm -rf /")
+```
+
+In this case, the command that gets executed is `ping -c 1 www.example.com ; rm -rf /`, which will delete all files in the root directory.
+
+To prevent this, you should sanitize and validate any user input before using it in a shell command. You can use regex to ensure the hostname is valid and doesn't contain any malicious characters.
+
+Furthermore, if the hostname is user input, it should be validated even before it is used in the `ping` command. The hostname should be checked to ensure it only contains alphanumeric characters, dots, and dashes, and it should not contain any whitespace or special characters.

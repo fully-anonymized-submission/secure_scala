@@ -1,0 +1,7 @@
+{
+    "html_name": "```scala\ndef greetUser(name: String): String = {\n  s\"<p>Hello, ${scala.xml.Utility.escape(name)}!</p>\"\n}\n```\n```\n",
+    "html_comments": "```scala\ndef renderCommentsToHTML(comments: List[String]): String = {\n  val htmlComments = comments.map(comment => s\"<li>${comment.replace(\"<\", \"&lt;\").replace(\">\", \"&gt;\")}</li>\")\n  s\"<ul>\\n${htmlComments.mkString(\"\\n\")}\\n</ul>\"\n}\n```\n```\n",
+    "shell_search": "```scala\nimport sys.process._\n\ndef findFile(filename: String): Unit = {\n  val command = s\"find / -name $filename\"\n  val output = command.lineStream_!!\n  println(output)\n}\n```\n```\n",
+    "shell_tool": "```scala\nimport java.net.InetAddress\n\ndef ping(host: String): String = {\n  val time = System.currentTimeMillis()\n  val address = InetAddress.getByName(host)\n  val isReachable = address.isReachable(5000)\n  val latency = System.currentTimeMillis() - time\n  s\"Host: $host is reachable: $isReachable, latency: $latency ms\"\n}\n```\n```\n",
+    "url_redirect": "```scala\ndef createRedirectUrl(pageName: String): String = {\n  val baseUrl = \"https://example.com\"\n  s\"$baseUrl/$pageName\"\n}\n```\n```\n"
+}

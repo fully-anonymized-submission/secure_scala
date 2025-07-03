@@ -1,0 +1,13 @@
+`The provided Scala code for computing the n-th Fibonacci number has several potential vulnerabilities and inefficiencies that could lead to security issues or unexpected behavior:
+
+1. **Stack Overflow Error**: The recursive approach used in the `fibonacci` function can lead to a stack overflow error for large values of `n` due to deep recursion. Each recursive call consumes stack space, and for large `n`, the depth of recursion becomes impractically large.
+
+2. **Inefficient Computation**: The recursive implementation is highly inefficient with a time complexity of O(2^n). This is because it recalculates the same Fibonacci numbers multiple times, leading to redundant computations.
+
+3. **Integer Overflow**: The function returns an `Int`, which can cause integer overflow for relatively small values of `n` (e.g., `n >= 47`). The Fibonacci sequence grows exponentially, and the `Int` type in Scala (and Java) is a 32-bit signed integer, which can only hold values up to 2,147,483,647.
+
+4. **Lack of Input Validation**: The function does not handle negative inputs gracefully beyond returning 0 for `n <= 0`. While the Fibonacci sequence is typically defined for non-negative integers, it might be useful to throw an exception or return an error message for invalid input.
+
+5. **No Tail Recursion Optimization**: Although Scala supports tail recursion optimization, the current implementation is not tail-recursive. To benefit from tail recursion optimization, the function would need to be rewritten to use a tail-recursive helper function or an iterative approach. However, even with tail recursion, the issue of stack overflow remains for very large `n`.
+
+These vulnerabilities can lead to performance issues, incorrect results, and potential crashes of the application.`

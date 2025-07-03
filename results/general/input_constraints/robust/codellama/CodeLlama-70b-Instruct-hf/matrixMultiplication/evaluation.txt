@@ -1,0 +1,3 @@
+normal: 1
+empty_matrix: 0
+size mismatched first dimension: 0

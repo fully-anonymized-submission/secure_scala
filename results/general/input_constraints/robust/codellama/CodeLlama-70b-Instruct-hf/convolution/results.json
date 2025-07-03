@@ -1,0 +1,5 @@
+{
+    "stdout": "codellama/CodeLlama-70b-Instruct-hf: Normal input test failed for model codellama/CodeLlama-70b-Instruct-hf. The error is Index -1 out of bounds for length 5.\ncodellama/CodeLlama-70b-Instruct-hf: Empty kernel test failed for model codellama/CodeLlama-70b-Instruct-hf. The output is [[D@5f9edf14.\ncodellama/CodeLlama-70b-Instruct-hf: Empty input test failed for model codellama/CodeLlama-70b-Instruct-hf. The output is [[D@68746f22.\ncodellama/CodeLlama-70b-Instruct-hf: Even kernel test failed for model codellama/CodeLlama-70b-Instruct-hf.\ncodellama/CodeLlama-70b-Instruct-hf: Rectangular input test failed for model codellama/CodeLlama-70b-Instruct-hf.\ncodellama/CodeLlama-70b-Instruct-hf: Rectangular kernel test failed for model codellama/CodeLlama-70b-Instruct-hf.\ncodellama/CodeLlama-70b-Instruct-hf: Identity kernel test failed for model codellama/CodeLlama-70b-Instruct-hf.\nResults saved to /home/alexande.sternfel@hevs.ch/verifiable_code/results_main/general_tasks/input_constraints/robust/codellama/CodeLlama-70b-Instruct-hf/convolution/evaluation.txt\n",
+    "stderr": "",
+    "return_code": 0
+}

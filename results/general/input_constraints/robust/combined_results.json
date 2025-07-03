@@ -1,0 +1,60 @@
+{
+    "Qwen/Qwen2.5-Coder-32B-Instruct": {
+        "averageAge": {},
+        "convolution": {
+            "rectangular_input": "1",
+            "normal": "1",
+            "empty_kernel": "1",
+            "even_kernel": "0",
+            "empty_input": "1",
+            "rectangular_kernel": "0",
+            "identity_kernel": "1"
+        },
+        "fibonacci": {},
+        "matrixMultiplication": {}
+    },
+    "deepseek-ai/deepseek-coder-33b-instruct": {
+        "averageAge": {
+            "normal_list": "1",
+            "negative_list": "0",
+            "empty_list": "1"
+        },
+        "convolution": {},
+        "fibonacci": {
+            "normal": "1",
+            "overflow": "0",
+            "negative": "1"
+        },
+        "matrixMultiplication": {
+            "normal": "1",
+            "empty_matrix": "1",
+            "size mismatched first dimension": "1"
+        }
+    },
+    "codellama/CodeLlama-70b-Instruct-hf": {
+        "averageAge": {
+            "normal_list": "1",
+            "negative_list": "0",
+            "empty_list": "1"
+        },
+        "convolution": {
+            "rectangular_input": "0",
+            "normal": "0",
+            "empty_kernel": "0",
+            "even_kernel": "0",
+            "empty_input": "0",
+            "rectangular_kernel": "0",
+            "identity_kernel": "0"
+        },
+        "fibonacci": {
+            "normal": "1",
+            "overflow": "0",
+            "negative": "1"
+        },
+        "matrixMultiplication": {
+            "normal": "1",
+            "empty_matrix": "0",
+            "size mismatched first dimension": "0"
+        }
+    }
+}

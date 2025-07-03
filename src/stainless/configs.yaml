@@ -1,0 +1,15 @@
+# mode: huggingface or local
+mode: local
+
+# Huggingface settings
+huggingface_email: alex1.sternfeld@gmail.com
+
+# paths, relative to root_folder
+path_fewshot_examples: data/stainless/fewshot_examples.json
+path_test_cases: data/stainless/test_cases.json
+path_save_results: results_stainless
+
+# model settings
+models: ["Qwen/Qwen2.5-Coder-32B-Instruct", "deepseek-ai/deepseek-coder-33b-instruct", "codellama/CodeLlama-70b-Instruct-hf"]
+max_new_tokens: 2048
+temperature: 0.7

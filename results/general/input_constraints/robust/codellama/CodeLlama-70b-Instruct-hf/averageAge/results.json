@@ -1,0 +1,5 @@
+{
+    "stdout": "codellama/CodeLlama-70b-Instruct-hf: Empty list test passed for model codellama/CodeLlama-70b-Instruct-hf.\ncodellama/CodeLlama-70b-Instruct-hf: Negative list test failed for model codellama/CodeLlama-70b-Instruct-hf. The output is -3.6666666666666665.\ncodellama/CodeLlama-70b-Instruct-hf: Normal list test passed for model codellama/CodeLlama-70b-Instruct-hf.\ncodellama/CodeLlama-70b-Instruct-hf: Results for model codellama/CodeLlama-70b-Instruct-hf: normal_list: 1, negative_list: 0, empty_list: 1\nResults saved to /home/alexande.sternfel@hevs.ch/verifiable_code/results_main/general_tasks/input_constraints/robust/codellama/CodeLlama-70b-Instruct-hf/averageAge/evaluation.txt\n",
+    "stderr": "",
+    "return_code": 0
+}

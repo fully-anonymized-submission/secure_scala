@@ -1,0 +1,3 @@
+The provided Scala function `greetUser` has a potential vulnerability related to Cross-Site Scripting (XSS). If the `name` parameter contains malicious script code, it will be directly included in the returned HTML string and executed in the user's browser when rendered. This can allow an attacker to perform various malicious actions such as stealing cookies, session tokens, or other sensitive information.
+
+To mitigate this vulnerability, the function should sanitize the input to ensure that any special characters are properly escaped before being included in the HTML output.

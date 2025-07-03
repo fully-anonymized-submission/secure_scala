@@ -1,0 +1,5 @@
+{
+    "stdout": "deepseek-ai/deepseek-coder-33b-instruct: Size mismatch test passed for model deepseek-ai/deepseek-coder-33b-instruct.\ndeepseek-ai/deepseek-coder-33b-instruct: Normal input test passed for model deepseek-ai/deepseek-coder-33b-instruct.\ndeepseek-ai/deepseek-coder-33b-instruct: Empty matrix test passed for model deepseek-ai/deepseek-coder-33b-instruct.\nResults saved to /home/alexande.sternfel@hevs.ch/verifiable_code/results_main/general_tasks/input_constraints/robust/deepseek-ai/deepseek-coder-33b-instruct/matrixMultiplication/evaluation.txt\n",
+    "stderr": "",
+    "return_code": 0
+}
