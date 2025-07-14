@@ -4,7 +4,7 @@ This repository provides the source code and the results for the RANLP submissio
 ## Repository structure :books:
 -- **src** \
 &nbsp;&nbsp;&nbsp;&nbsp;|--- *general_tasks* \
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--- ```configs.yaml```: Configuration file for generation of code.
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--- ```configs.yaml```: Configuration file for generation of code. \
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--- ```parse_code.py```: Script to parse the output of LLMs and extract the code. \
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--- ```helpers.py```: Helper functions to interact with the Huggingchat API and to run prompts through local LLMs. \
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|--- ```generate_code.py```: The actual script to generate the code, based on the provided configuration file. \
