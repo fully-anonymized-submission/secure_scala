@@ -49,11 +49,7 @@ You can run the code using the following steps:
 1. **Set up the environment**: Follow the instructions above to set up the environment.
 2. **Determine your test cases**: The test cases that are used in the paper are located in the `data` directory. You can modify the test cases as needed for your use case.
 3. **Set up your configuration file**: The configuration files for the experiments are located in the `src/general_tasks/configs` and `src/stainless/configs` directories. You can modify these files to change the settings for the experiments. 
-4. **Run the experiments**: We provide scripts for running the experiments using Slurm in the folder `scripts`. If you want to directly run the code without Slurm, you can directly run the scripts in the `src` directory. For example, to run the general tasks, you can use:
-
-```bash
-python src/general_tasks/generate_code.py your_config_file.yaml
-```
+4. **Run the experiments**: We provide scripts for running the experiments using Slurm in the folder `scripts`. If you want to directly run the code without Slurm, you can directly run the scripts in the `src` directory. For example, to run the general tasks, you can use: ```python src/general_tasks/generate_code.py your_config_file.yaml```
 
 For the Stainless framework, we also provide the option to use models through Huggingchat. For this, you should add your Huggingface password in a `.env` file in the root directory of the repository, as `HUGGINGFACE_PASSWORD=your_password`. Then, in the configuration file, set the `mode` to `huggingface`. 
 
