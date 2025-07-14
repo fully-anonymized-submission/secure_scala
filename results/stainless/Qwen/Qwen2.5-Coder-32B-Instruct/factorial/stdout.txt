@@ -1,0 +1,24 @@
+[[34m  Info  [0m] Compiling with standard Scala 3.5.2 compiler front end...
+[[31m Error  [0m] results_stainless/Qwen/Qwen2.5-Coder-32B-Instruct/factorial/generated_code.scala:16:5: end of statement expected but identifier found
+             } holds
+               [31m^[0m
+[[31m Error  [0m] results_stainless/Qwen/Qwen2.5-Coder-32B-Instruct/factorial/generated_code.scala:3:23: value BigInt is not a member of stainless.math
+           import stainless.math.BigInt._
+                                 [31m^[0m
+[[31m Error  [0m] results_stainless/Qwen/Qwen2.5-Coder-32B-Instruct/factorial/generated_code.scala:3:23: <error value BigInt is not a member of stainless.math> is not a legal path
+[[31m Error  [0m] since it is not a concrete type
+           import stainless.math.BigInt._
+                                 [31m^[0m
+[[31m Error  [0m] results_stainless/Qwen/Qwen2.5-Coder-32B-Instruct/factorial/generated_code.scala:8:5: Reference to decreases is ambiguous.
+[[31m Error  [0m] It is both imported by import stainless.lang._
+[[31m Error  [0m] and imported subsequently by import <error value BigInt is not a member of stainless.math>._
+               decreases(n)
+               [31m^[0m
+[[31m Error  [0m] results_stainless/Qwen/Qwen2.5-Coder-32B-Instruct/factorial/generated_code.scala:9:17: Reference to BigInt is ambiguous.
+[[31m Error  [0m] It is both imported by import stainless.lang._
+[[31m Error  [0m] and imported subsequently by import <error value BigInt is not a member of stainless.math>._
+               if (n == 0) BigInt(1)
+                           [31m^[0m
+[[33mWarning [0m] 5 errors found
+[[34m  Info  [0m] Finished compiling
+[[31m Error  [0m] Stainless terminated with an error.

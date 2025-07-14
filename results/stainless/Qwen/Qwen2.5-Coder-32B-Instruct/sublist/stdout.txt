@@ -1,0 +1,21 @@
+[[34m  Info  [0m] Compiling with standard Scala 3.5.2 compiler front end...
+[[31m Error  [0m] results_stainless/Qwen/Qwen2.5-Coder-32B-Instruct/sublist/generated_code.scala:10:24: Wrong number of parameters, expected: 1
+                 l1.forall((x, i) => l2.isDefinedAt(i) && l2(i) == x)
+                                  [31m^[0m
+[[31m Error  [0m] results_stainless/Qwen/Qwen2.5-Coder-32B-Instruct/sublist/generated_code.scala:10:24: Wrong number of parameters, expected: 1
+                 l1.forall((x, i) => l2.isDefinedAt(i) && l2(i) == x)
+                                  [31m^[0m
+[[31m Error  [0m] results_stainless/Qwen/Qwen2.5-Coder-32B-Instruct/sublist/generated_code.scala:10:30: value isDefinedAt is not a member of stainless.collection.List[T]
+                 l1.forall((x, i) => l2.isDefinedAt(i) && l2(i) == x)
+                                        [31m^[0m
+[[31m Error  [0m] results_stainless/Qwen/Qwen2.5-Coder-32B-Instruct/sublist/generated_code.scala:10:17: Found:    (<error Wrong number of parameters, expected: 1>,
+[[31m Error  [0m]   <error Wrong number of parameters, expected: 1>) => Boolean
+[[31m Error  [0m] Required: T => Boolean
+                 l1.forall((x, i) => l2.isDefinedAt(i) && l2(i) == x)
+                           [31m^[0m
+[[31m Error  [0m] results_stainless/Qwen/Qwen2.5-Coder-32B-Instruct/sublist/generated_code.scala:13:7: value sliding is not a member of stainless.collection.List[T]
+               b.sliding(a.length).exists(isPrefix(a, _))
+                 [31m^[0m
+[[33mWarning [0m] 5 errors found
+[[34m  Info  [0m] Finished compiling
+[[31m Error  [0m] Stainless terminated with an error.

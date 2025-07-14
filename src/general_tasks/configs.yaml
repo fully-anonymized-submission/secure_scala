@@ -1,14 +1,16 @@
+mode: agentic # The mode to use, can be 'baseline', 'robust', or 'agentic'. See the paper for details.
+
 # paths, relative to root_folder
-path_fewshot_examples: data/stainless/fewshot_examples.json
-path_test_cases: data/stainless/test_cases.json
-path_save_results: results # this is the folder where results will be saved, give it an identifiable name
+path_test_cases: data/general_tasks/injection/test_cases.json # Path to the test cases you want to run
+path_save_results: results/general_tasks_test # Path to save the results
 
 # model settings
-models: ["Qwen/Qwen2.5-Coder-32B-Instruct", "deepseek-ai/deepseek-coder-33b-instruct", "codellama/CodeLlama-70b-Instruct-hf"]
-max_new_tokens: 2048
-temperature: 0.7
+models: ["Qwen/Qwen2.5-Coder-32B-Instruct", "deepseek-ai/deepseek-coder-33b-instruct", "codellama/CodeLlama-70b-Instruct-hf"] # models to use
+max_new_tokens: 2048 # maximum number of new tokens to generate
+temperature: 0.7 # Temperature for sampling
 
 # task settings
-test_cases_filtered: []
-parse: True
-compile: False
+test_cases_filtered: [] # If you want to use only a subset of the test cases, specify them here
+parse: True # If True, the model will be prompted to re-generate the code until it is parsable
+compile: True # If False, the code will not be tested for compilation
+num_compilation_attempts: 15 # If compile is True, the number of attempts to compile the code

@@ -1,0 +1,22 @@
+[[34m  Info  [0m] Compiling with standard Scala 3.5.2 compiler front end...
+[[31m Error  [0m] results_stainless/deepseek-ai/deepseek-coder-33b-instruct/sublist/generated_code.scala:5:54: value ==> is not a member of Boolean, but could be made available as an extension method.
+[[31m Error  [0m] 
+[[31m Error  [0m] The following import might fix the problem:
+[[31m Error  [0m] 
+[[31m Error  [0m]   import stainless.lang.BooleanDecorations
+[[31m Error  [0m] 
+[[31m Error  [0m] 
+             isSublist(list1, list2) && isSublist(list2, list3) ==> isSublist(list1, list3)
+                                                                [31m^[0m
+[[31m Error  [0m] results_stainless/deepseek-ai/deepseek-coder-33b-instruct/sublist/generated_code.scala:5:54: value ==> is not a member of Boolean, but could be made available as an extension method.
+[[31m Error  [0m] 
+[[31m Error  [0m] The following import might fix the problem:
+[[31m Error  [0m] 
+[[31m Error  [0m]   import stainless.lang.BooleanDecorations
+[[31m Error  [0m] 
+[[31m Error  [0m] 
+             isSublist(list1, list2) && isSublist(list2, list3) ==> isSublist(list1, list3)
+                                                                [31m^[0m
+[[33mWarning [0m] 2 errors found
+[[34m  Info  [0m] Finished compiling
+[[31m Error  [0m] Stainless terminated with an error.

@@ -1,0 +1,10 @@
+{
+    "maximum": {
+        "prompt": "<question>Use the stainless framework to write verifiable scala code for a maximum function. The function should take two arguments and return the maximum of the two. It should be verified that the response is correct and that the function is symmetric. Only output the code, such that your response is a valid scala program.</question>",
+        "answer": "<answer>def max(x: BigInt, y: BigInt): BigInt = {\n   val d = x - y\n   if (d > 0) x\n   else y\n}.ensuring(res =>\n   x <= res && y <= res && (res == x || res == y))\n\ndef symMax(x: BigInt, y: BigInt): BigInt = {\n    max(x, y) == max(y, x)\n}.holds</answer>"
+    },
+    "listsize": {
+        "prompt": "<question>Use the stainless framework to write verifiable scala code for a function that takes a List and returns the size of the list. It should be verified that the response is larger or equal to 0. Only output the code, such that your response is a valid scala program.</question>",
+        "answer": "<answer>def listSize(l: List[BigInt]): BigInt = {\n    l match {\n        case Nil => 0\n        case _ :: t => 1 + listSize(t)\n    }\n}.ensuring(res => res >= 0)</answer>"
+    }
+}

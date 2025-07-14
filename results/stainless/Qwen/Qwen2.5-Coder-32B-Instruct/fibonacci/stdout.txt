@@ -1,0 +1,28 @@
+[[34m  Info  [0m] Compiling with standard Scala 3.5.2 compiler front end...
+[[31m Error  [0m] results_stainless/Qwen/Qwen2.5-Coder-32B-Instruct/fibonacci/generated_code.scala:21:5: end of statement expected but identifier found
+             } holds
+               [31m^[0m
+[[31m Error  [0m] results_stainless/Qwen/Qwen2.5-Coder-32B-Instruct/fibonacci/generated_code.scala:11:25: value >= is not a member of Int | BigInt.
+[[31m Error  [0m] An extension method was tried, but could not be fully constructed:
+[[31m Error  [0m] 
+[[31m Error  [0m]     scala.math.Ordered.orderingToOrdered[Int | BigInt](res)(
+[[31m Error  [0m]       scala.math.Ordering.ordered[Int | BigInt](
+[[31m Error  [0m]         {
+[[31m Error  [0m]           def $anonfun(x: Int | BigInt): Comparable[? >: Int | BigInt] =
+[[31m Error  [0m]             scala.math.Ordered.orderingToOrdered[T](x)(
+[[31m Error  [0m]               scala.math.Ordering.comparatorToOrdering[T](
+[[31m Error  [0m]                 /* missing */summon[java.util.Comparator[T]])
+[[31m Error  [0m]             )
+[[31m Error  [0m]           closure($anonfun)
+[[31m Error  [0m]         }
+[[31m Error  [0m]       )
+[[31m Error  [0m]     )
+             } ensuring(res => res >= 0)
+                                   [31m^[0m
+[[31m Error  [0m] results_stainless/Qwen/Qwen2.5-Coder-32B-Instruct/fibonacci/generated_code.scala:6:32: Found:    Int | BigInt
+[[31m Error  [0m] Required: BigInt
+             def fib(n: BigInt): BigInt = {
+                                          [31m^[0m
+[[33mWarning [0m] 3 errors found
+[[34m  Info  [0m] Finished compiling
+[[31m Error  [0m] Stainless terminated with an error.

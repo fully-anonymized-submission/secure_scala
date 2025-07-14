@@ -1,0 +1,43 @@
+[[34m  Info  [0m] Compiling with standard Scala 3.5.2 compiler front end...
+[[31m Error  [0m] results_stainless/codellama/CodeLlama-70b-Instruct-hf/sublist/generated_code.scala:5:59: Not found: type Eq
+             def isSublist[T](l1: List[T], l2: List[T])(implicit ev: Eq[T]): Boolean = {
+                                                                     [31m^[0m
+[[31m Error  [0m] results_stainless/codellama/CodeLlama-70b-Instruct-hf/sublist/generated_code.scala:5:59: Too many type arguments for <error Not found: type Eq>[]
+[[31m Error  [0m] expected: []
+[[31m Error  [0m] actual:   [T]
+             def isSublist[T](l1: List[T], l2: List[T])(implicit ev: Eq[T]): Boolean = {
+                                                                     [31m^[0m
+[[31m Error  [0m] results_stainless/codellama/CodeLlama-70b-Instruct-hf/sublist/generated_code.scala:17:47: Not found: type Eq
+             def reflexivity[T](l: List[T])(implicit ev: Eq[T]): Boolean = {
+                                                         [31m^[0m
+[[31m Error  [0m] results_stainless/codellama/CodeLlama-70b-Instruct-hf/sublist/generated_code.scala:17:47: Too many type arguments for <error Not found: type Eq>[]
+[[31m Error  [0m] expected: []
+[[31m Error  [0m] actual:   [T]
+             def reflexivity[T](l: List[T])(implicit ev: Eq[T]): Boolean = {
+                                                         [31m^[0m
+[[31m Error  [0m] results_stainless/codellama/CodeLlama-70b-Instruct-hf/sublist/generated_code.scala:18:20: No given instance of type <error Too many type arguments for <error Not found: type Eq>[]
+[[31m Error  [0m] expected: []
+[[31m Error  [0m] actual:   [T]> was found for parameter ev of method isSublist in object Sublist
+               isSublist(l, l) == true
+                              [31m^[0m
+[[31m Error  [0m] results_stainless/codellama/CodeLlama-70b-Instruct-hf/sublist/generated_code.scala:21:75: Not found: type Eq
+             def transitivity[T](l1: List[T], l2: List[T], l3: List[T])(implicit ev: Eq[T]): Boolean = {
+                                                                                     [31m^[0m
+[[31m Error  [0m] results_stainless/codellama/CodeLlama-70b-Instruct-hf/sublist/generated_code.scala:21:75: Too many type arguments for <error Not found: type Eq>[]
+[[31m Error  [0m] expected: []
+[[31m Error  [0m] actual:   [T]
+             def transitivity[T](l1: List[T], l2: List[T], l3: List[T])(implicit ev: Eq[T]): Boolean = {
+                                                                                     [31m^[0m
+[[31m Error  [0m] results_stainless/codellama/CodeLlama-70b-Instruct-hf/sublist/generated_code.scala:22:26: No given instance of type <error Too many type arguments for <error Not found: type Eq>[]
+[[31m Error  [0m] expected: []
+[[31m Error  [0m] actual:   [T]> was found for parameter ev of method isSublist in object Sublist
+               if (isSublist(l1, l2) && isSublist(l2, l3)) {
+                                    [31m^[0m
+[[31m Error  [0m] results_stainless/codellama/CodeLlama-70b-Instruct-hf/sublist/generated_code.scala:23:24: No given instance of type <error Too many type arguments for <error Not found: type Eq>[]
+[[31m Error  [0m] expected: []
+[[31m Error  [0m] actual:   [T]> was found for parameter ev of method isSublist in object Sublist
+                 isSublist(l1, l3) == true
+                                  [31m^[0m
+[[33mWarning [0m] 9 errors found
+[[34m  Info  [0m] Finished compiling
+[[31m Error  [0m] Stainless terminated with an error.

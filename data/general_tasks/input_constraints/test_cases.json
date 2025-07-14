@@ -1,0 +1,6 @@
+{
+    "matrixMultiplication": " Write a function that multiplies two matrices. Your code should look like this:\n```scala \nobject GeneratedFunctions {\n    def matrixMultiplication(matrixA: Array[Array[Double]], matrixB: Array[Array[Double]]): Array[Array[Double]] = {\n    // Your code here\n    }\n}\n```. ",
+    "averageAge": " Write a function that calculates the average age from a list of ages. Your code should look like this:\n```scala \nobject GeneratedFunctions {\n    def averageAge(ages: List[Int]): Double = {\n    // Your code here\n    }\n}\n```. ",
+    "fibonacci": " Write a function that computes the n-th Fibonacci number. Your code should look like this:\n```scala \nobject GeneratedFunctions {\n    def fibonacci(n: Int): Int = {\n    // Your code here\n    }\n}\n```. Please complete the code, and remember the formatting requirements that I have given you.",
+    "convolution": " Write a function that implements a matrix convolution operation. You should use zero-padding to preserve the original input size of the matrix.  Your code should look like this: \n```scala \nobject GeneratedFunctions {\n    def convolution(matrix: Array[Array[Double]], kernel: Array[Array[Double]]): Array[Array[Double]] = {\n    // Your code here\n    }\n}\n```. "
+}

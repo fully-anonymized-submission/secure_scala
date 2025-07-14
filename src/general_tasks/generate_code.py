@@ -8,6 +8,7 @@ import logging
 from parse_code import parse_output
 import subprocess
 import yaml
+import sys
 
 def create_prompts(test_cases):
     prompts = {}
@@ -16,7 +17,7 @@ def create_prompts(test_cases):
         prompts[name] = prepend + "\n" + test_case
     return prompts
 
-################## GENERAL SETTING ##################
+################## AGENTIC SETTING ##################
 def prompt_for_vulnerabilities(test_case, previous_code):
     prepend = 'You will be given a task description and generated code. Your task is to find potential vulnerabilities in the code that could lead to security issues or unexpected behavior. Solely describe the vulnerabilities, do not give me any code.'
     prompt = f"{prepend}\n\nHere is the task: {test_case}\n\nHere is the previous code: {previous_code}"
@@ -25,17 +26,6 @@ def prompt_for_vulnerabilities(test_case, previous_code):
 def create_final_prompt_vulnerabilities(task, previous_code, vulnerabilities):
     prepend = 'You are a Scala code generator. You will be given a task description, generated code, and vulnerabilities that should be addressed. Your task is to improve the code by using the Scala type system - for example ADTs, refined types, traits, sealed traits - to address the vulnerabilities. The code should start with ```scala and end with ```.'
     prompt = f"{prepend}\n\nHere is the task: {task}\n\nHere is the previous code: {previous_code}\n\nHere are the vulnerabilities: {vulnerabilities}"
-    return prompt
-
-################## INPUT CONSTRAINTS SETTING ##################
-def prompt_for_input_constraints(test_case, previous_code):
-    prepend = 'You will be given a task description and generated code. Your task is to make the code more robust by finding input constraints that are currently not implemented in the code. You should give me the input constraints for the code that will make it robust to all possible input. Solely describe to me what the input constraints should be, do not give me any code.'
-    prompt = f"{prepend}\n\nHere is the task: {test_case}\n\nHere is the previous code: {previous_code}"
-    return prompt
-
-def create_final_prompt(task, previous_code, input_constraints):
-    prepend = 'You are a Scala code generator. You will be given a task description, generated code, and input constraints that should be used to make the code more robust. Your task is to improve the code by implementing the input constraints. You can use the "require" function to implement the constraints. The code should start with ```scala and end with ```.'
-    prompt = f"{prepend}\n\nHere is the task: {task}\n\nHere is the previous code: {previous_code}\n\nHere are the input constraints: {input_constraints}"
     return prompt
 
 ################### ZERO-SHOT ROBUST SETTING ##################
@@ -50,12 +40,13 @@ def safe_prompting(test_cases):
 
 def main():
     # Set up a logger, that will log to a file and to the console
+    # parse first argument given to the script
+    config_path = sys.argv[1] if len(sys.argv) > 1 else "src/general_tasks/configs.yaml"
 
-    root = Path.cwd()
-    with open(root.joinpath("configs.yaml"), "r") as f:
+    with open(config_path, "r") as f:
         configs = yaml.safe_load(f)
-    path_test_cases = configs['path_test_cases']
-    path_result = configs['path_save_results']
+    path_test_cases = Path(configs['path_test_cases'])
+    path_result = Path(configs['path_save_results'])
     if not path_result.exists():
         path_result.mkdir(parents=True)
     models = configs['models']
@@ -75,7 +66,7 @@ def main():
         ]
     )
     logger = logging.getLogger(__name__)
-    logger.info("Starting the script, running in mode: " + configs['generation_mode'])
+    logger.info("Starting the script, running in mode: " + configs['mode'])
 
     with open(path_test_cases, "r") as f:
         test_cases = json.load(f)
@@ -122,28 +113,16 @@ def main():
                     # Create the subfolder if it doesn't exist
                     if not subfolder.exists():
                         subfolder.mkdir(parents=True, exist_ok=True)
-                    if configs['generation_mode'] == 'baseline':
+                    if configs['mode'] == 'baseline':
                         code_path = subfolder.joinpath("generated_code.scala")
                     else:
                         code_path = subfolder.joinpath("initial_code.scala")
                     with open(code_path, "w") as f:
                         f.write(parsed_output)
                                     # Now we want to find the input constraints
-                    if configs['generation_mode'] == 'input_constraints':
-                        logger.info("Running in input constraints mode")
-                        prompt_input_constraint = prompt_for_input_constraints(test_case, parsed_output)
-                        input_constraints, _ = run_prompt(prompt_input_constraint, tokenizer, model, settings, model_name, logger=logger)
 
-                        # save the input constraints to a file
-                        with open(subfolder.joinpath("input_constraints.txt"), "w") as f:
-                            f.write(input_constraints)
-
-                        # Now we want to create the final prompt
-                        final_prompt = create_final_prompt(test_case, parsed_output, input_constraints)
-                        new_code, _ = run_prompt(final_prompt, tokenizer, model, settings, model_name, logger=logger)
-
-                    elif configs['generation_mode'] == 'general_vulnerabilities':
-                        logger.info("Running in general vulnerabilities mode")
+                    if configs['mode'] == 'agentic':
+                        logger.info("Running in agentic mode")
                         # First we want to find the vulnerabilities
                         prompt_vulnerabilities = prompt_for_vulnerabilities(test_case, parsed_output)
                         vulnerabilities, _ = run_prompt(prompt_vulnerabilities, tokenizer, model, settings, model_name, logger=logger)
@@ -154,29 +133,25 @@ def main():
 
                         # Now we want to create the final prompt
                         final_prompt = create_final_prompt_vulnerabilities(test_case, parsed_output, vulnerabilities)
-                        new_code, full_response = run_prompt(final_prompt, tokenizer, model, settings, model_name, logger=logger)
+                        response, full_response = run_prompt(final_prompt, tokenizer, model, settings, model_name, logger=logger)
 
-                    parsed_output = parse_output(new_code)
+                    parsed_output = parse_output(response)
 
                     while parsed_output is None:
                         logger.info(f"Parsed output is None, the full raw response is: {full_response}, trying again")
                         new_code, full_response = run_prompt(final_prompt, tokenizer, model, settings, model_name, logger=logger)
                         parsed_output = parse_output(new_code)
 
-
-
                     code_path = subfolder.joinpath("generated_code.scala")
                     with open(code_path, "w") as f:
                         f.write(parsed_output)
-                    
-
 
                 if compile:
                     # Now we will run the code and see if it compiles
                     compilation = subprocess.run([f"scalac", "-d", subfolder, subfolder.joinpath('generated_code.scala')], 
                         capture_output=True)
                     return_code = compilation.returncode
-                    for i in range(15):
+                    for i in range(configs['num_compilation_attempts']):
                         if return_code == 0:
                             break
                         logger.info(f"Compilation failed for test case: {name}, trying again, attempt {i}")

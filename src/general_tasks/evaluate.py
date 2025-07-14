@@ -1,7 +1,6 @@
 import json
 import subprocess
 from pathlib import Path
-import re
 import os
 from dotenv import load_dotenv
 load_dotenv()

@@ -1,15 +1,17 @@
 # mode: huggingface or local
-mode: local
+mode: local # The mode to use, can be 'local' or 'huggingface'. If 'local', the models will be loaded from the local filesystem. If 'huggingface', the models will be loaded from Huggingchat
 
 # Huggingface settings
-huggingface_email: alex1.sternfeld@gmail.com
+huggingface_email: YOUR_EMAIL # Your Huggingface email, if you want to use Huggingface
 
 # paths, relative to root_folder
-path_fewshot_examples: data/stainless/fewshot_examples.json
-path_test_cases: data/stainless/test_cases.json
-path_save_results: results_stainless
+path_fewshot_examples: data/stainless/fewshot_examples.json # Path to the few-shot examples
+path_test_cases: data/stainless/test_cases.json # Path to the test cases you want to run
+path_save_results: results/stainless_test # Path to save the results
 
 # model settings
-models: ["Qwen/Qwen2.5-Coder-32B-Instruct", "deepseek-ai/deepseek-coder-33b-instruct", "codellama/CodeLlama-70b-Instruct-hf"]
-max_new_tokens: 2048
-temperature: 0.7
+
+models: ["Qwen/Qwen2.5-Coder-0.5B-Instruct"]
+#models: ["Qwen/Qwen2.5-Coder-32B-Instruct", "deepseek-ai/deepseek-coder-33b-instruct", "codellama/CodeLlama-70b-Instruct-hf"] # models to use
+max_new_tokens: 2048 # maximum number of new tokens to generate
+temperature: 0.7 # Temperature for sampling

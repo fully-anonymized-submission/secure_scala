@@ -1,0 +1,10 @@
+[[34m  Info  [0m] Compiling with standard Scala 3.5.2 compiler front end...
+[[31m Error  [0m] results_stainless/deepseek-ai/deepseek-coder-33b-instruct/fibonacci/generated_code.scala:10:6: Not found: type tailrec
+               @tailrec
+                [31m^[0m
+[[31m Error  [0m] results_stainless/deepseek-ai/deepseek-coder-33b-instruct/fibonacci/generated_code.scala:10:6: Not found: type tailrec
+               @tailrec
+                [31m^[0m
+[[33mWarning [0m] 2 errors found
+[[34m  Info  [0m] Finished compiling
+[[31m Error  [0m] Stainless terminated with an error.
