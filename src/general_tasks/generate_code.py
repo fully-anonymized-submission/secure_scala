@@ -1,7 +1,7 @@
 
 from pathlib import Path
 import json
-from helpers import run_prompt
+from helpers import run_prompt, create_planning_prompts, create_implementation_prompt
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 import logging
@@ -9,6 +9,7 @@ from parse_code import parse_output
 import subprocess
 import yaml
 import sys
+import os
 
 def create_prompts(test_cases):
     prompts = {}
@@ -36,7 +37,11 @@ def safe_prompting(test_cases):
         prompts[name] = prepend + "\n" + test_case
     return prompts
 
-################################################################
+################### SAFEPILOT SETTING ##################
+def create_final_prompt_vulnerabilities_notypes(task, previous_code, vulnerabilities):
+    prepend = 'You are a Scala code generator. You will be given a task description, generated code, and vulnerabilities that should be addressed. Your task is to improve the code. The code should start with ```scala and end with ```.'
+    prompt = f"{prepend}\n\nHere is the task: {task}\n\nHere is the previous code: {previous_code}\n\nHere are the vulnerabilities: {vulnerabilities}"
+    return prompt
 
 def main():
     # Set up a logger, that will log to a file and to the console
@@ -53,6 +58,8 @@ def main():
     test_cases_filtered = configs['test_cases_filtered']
     parse = configs['parse']
     compile = configs['compile']
+    generation_mode = configs['mode']
+
     settings = {
         "max_new_tokens": configs['max_new_tokens'],
         "temperature": configs['temperature'],
@@ -66,7 +73,14 @@ def main():
         ]
     )
     logger = logging.getLogger(__name__)
-    logger.info("Starting the script, running in mode: " + configs['mode'])
+    logger.info("Starting the script, running in mode: " + generation_mode)
+
+    if generation_mode not in ['baseline', 'robust', 'planning', 'safepilot', 'agentic']:
+        raise ValueError(f"Invalid generation mode: {generation_mode}. Choose from 'baseline', 'robust', 'planning', 'safepilot', 'agentic'.")
+    
+    if generation_mode == 'planning':
+        save_planning_path = path_result.joinpath("planning_outputs.json")
+        plannings = {}
 
     with open(path_test_cases, "r") as f:
         test_cases = json.load(f)
@@ -79,7 +93,6 @@ def main():
 
         gpu_memory = torch.cuda.memory_allocated() / (1024 ** 3)
         logger.info(f"GPU memory usage: {gpu_memory:.2f} GB")
-
 
         responses = {}
 
@@ -99,52 +112,73 @@ def main():
 
             prompts = create_prompts(test_cases)
 
+            if generation_mode == 'robust':
+                prompts_robust = safe_prompting(test_cases)
+            
+            if generation_mode == 'planning':
+                prompts_planning = create_planning_prompts(test_cases)
+
             for name, test_case in prompts.items():
                 logger.info(f"Running test case: {name}")
-                response, full_response = run_prompt(test_case, tokenizer, model, settings, model_name, logger=logger)
-                if parse:
-                    parsed_output = parse_output(response)
-                    while parsed_output is None:
-                        logger.info(f"Parsed output is None, the full raw response is: {full_response}, trying again")
+                # If we are in robust mode, we will use the robust prompts
+                if generation_mode == 'robust':
+                    test_case = prompts_robust[name]
+                    response, full_response = run_prompt(test_case, tokenizer, model, settings, model_name, logger=logger)
+                elif generation_mode == 'planning':
+                    test_case = prompts_planning[name]
+                    response_planning, _ = run_prompt(test_case, tokenizer, model, settings, model_name, logger=logger)
+                    plannings[name] = response_planning
+                    prompt_implementation = create_implementation_prompt(response_planning, test_case)
+                    response, full_response = run_prompt(prompt_implementation, tokenizer, model, settings, model_name, logger=logger)
+                else:
+                    response, full_response = run_prompt(test_case, tokenizer, model, settings, model_name, logger=logger)
+
+                if parse:    
+                    response = parse_output(response)
+                    while response is None:
+                        logger.info(f"Parsed output is None, trying again")
                         response, full_response = run_prompt(test_case, tokenizer, model, settings, model_name, logger=logger)
-                        parsed_output = parse_output(response)
-                    # Now we want to save it to a .scala file to see whether it compiles
-                    subfolder = path_model_result.joinpath(name)
-                    # Create the subfolder if it doesn't exist
-                    if not subfolder.exists():
-                        subfolder.mkdir(parents=True, exist_ok=True)
-                    if configs['mode'] == 'baseline':
-                        code_path = subfolder.joinpath("generated_code.scala")
-                    else:
-                        code_path = subfolder.joinpath("initial_code.scala")
-                    with open(code_path, "w") as f:
-                        f.write(parsed_output)
-                                    # Now we want to find the input constraints
+                        response = parse_output(response)
+                # Now we want to save it to a .scala file to see whether it compiles
+                subfolder = path_model_result.joinpath(name)
+                # Create the subfolder if it doesn't exist
+                if not subfolder.exists():
+                    subfolder.mkdir(parents=True, exist_ok=True)
+                if generation_mode == 'baseline' or generation_mode == 'robust' or generation_mode == 'planning':
+                    code_path = subfolder.joinpath("generated_code.scala")
+                else:
+                    code_path = subfolder.joinpath("initial_code.scala")
+                with open(code_path, "w") as f:
+                    f.write(response)
+                                # Now we want to find the input constraints
 
-                    if configs['mode'] == 'agentic':
-                        logger.info("Running in agentic mode")
-                        # First we want to find the vulnerabilities
-                        prompt_vulnerabilities = prompt_for_vulnerabilities(test_case, parsed_output)
-                        vulnerabilities, _ = run_prompt(prompt_vulnerabilities, tokenizer, model, settings, model_name, logger=logger)
+                if generation_mode == 'agentic' or generation_mode == 'safepilot':
+                    logger.info("Running in agentic mode")
+                    # First we want to find the vulnerabilities
+                    prompt_vulnerabilities = prompt_for_vulnerabilities(test_case, response)
+                    vulnerabilities, _ = run_prompt(prompt_vulnerabilities, tokenizer, model, settings, model_name, logger=logger)
 
-                        # save the vulnerabilities to a file
-                        with open(subfolder.joinpath("vulnerabilities.txt"), "w") as f:
-                            f.write(vulnerabilities)
+                    # save the vulnerabilities to a file
+                    with open(subfolder.joinpath("vulnerabilities.txt"), "w") as f:
+                        f.write(vulnerabilities)
 
-                        # Now we want to create the final prompt
-                        final_prompt = create_final_prompt_vulnerabilities(test_case, parsed_output, vulnerabilities)
-                        response, full_response = run_prompt(final_prompt, tokenizer, model, settings, model_name, logger=logger)
+                    # Now we want to create the final prompt
+                    if generation_mode == 'agentic':
+                        final_prompt = create_final_prompt_vulnerabilities(test_case, response, vulnerabilities)
+                    else:  # safepilot
+                        final_prompt = create_final_prompt_vulnerabilities_notypes(test_case, response, vulnerabilities)
+                    response, full_response = run_prompt(final_prompt, tokenizer, model, settings, model_name, logger=logger)
 
-                    parsed_output = parse_output(response)
-
-                    while parsed_output is None:
-                        logger.info(f"Parsed output is None, the full raw response is: {full_response}, trying again")
-                        new_code, full_response = run_prompt(final_prompt, tokenizer, model, settings, model_name, logger=logger)
-                        parsed_output = parse_output(new_code)
+                    if parse:
+                        response = parse_output(response)
+                        while response is None:
+                            logger.info(f"Parsed output is None, trying again")
+                            new_code, full_response = run_prompt(final_prompt, tokenizer, model, settings, model_name, logger=logger)
+                            response = parse_output(new_code)
 
                     code_path = subfolder.joinpath("generated_code.scala")
                     with open(code_path, "w") as f:
-                        f.write(parsed_output)
+                            f.write(response)
 
                 if compile:
                     # Now we will run the code and see if it compiles
@@ -155,16 +189,15 @@ def main():
                         if return_code == 0:
                             break
                         logger.info(f"Compilation failed for test case: {name}, trying again, attempt {i}")
-                        logger.info(f"Parsed output is: {parsed_output}")
-                        logger.info(f"Full response is: {full_response}")
+    
                         response, full_response = run_prompt(test_case, tokenizer, model, settings, model_name, logger=logger)
-                        parsed_output = parse_output(response)
-                        while parsed_output is None:
-                            logger.info(f"Parsed output is None, the full raw response is: {full_response}, trying again")
+                        response = parse_output(response)
+                        while response is None:
+                            logger.info(f"Parsed output is None, trying again")
                             response, full_response = run_prompt(test_case, tokenizer, model, settings, model_name, logger=logger)
-                            parsed_output = parse_output(response)
+                            response = parse_output(response)
                         with open(code_path, "w") as f:
-                            f.write(parsed_output)
+                            f.write(response)
                         compilation = subprocess.run([f"scalac", "-d", subfolder, subfolder.joinpath('generated_code.scala')], 
                             capture_output=True)
                         return_code = compilation.returncode
