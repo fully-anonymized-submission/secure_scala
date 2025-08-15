@@ -1,12 +1,12 @@
-mode: safepilot # The mode to use, can be 'baseline', 'robust', 'agentic' or 'safepilot'
+mode: agentic # The mode to use, can be 'baseline', 'robust', or 'agentic'. See the paper for details.
+
 # paths, relative to root_folder
 path_test_cases: data/general_tasks/injection/test_cases.json # Path to the test cases you want to run
-path_save_results: results/testrun_safepilot # Path to save the results
+path_save_results: results/general_tasks_test # Path to save the results
 
 # model settings
-#models: ["Qwen/Qwen2.5-Coder-32B-Instruct", "deepseek-ai/deepseek-coder-33b-instruct", "codellama/CodeLlama-70b-Instruct-hf"] # models to use
-models: ["codellama/CodeLlama-7b-Instruct-hf"]
-max_new_tokens: 2048 # maximum number of new tokens to generate
+models: ["codellama/CodeLlama-7b-Instruct-hf"] # models to use
+max_new_tokens: 1024 # maximum number of new tokens to generate
 temperature: 0.7 # Temperature for sampling
 
 # task settings
